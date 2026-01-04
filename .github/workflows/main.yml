@@ -1,0 +1,32 @@
+name: Markdown Lint
+
+on:
+  push:
+    branches:
+      - main   # Run whenever changes are pushed to the main branch
+  pull_request:
+    branches:
+      - main   # Also run on pull requests targeting main
+
+jobs:
+  lint-markdown:
+    runs-on: ubuntu-latest   # Use the latest Ubuntu runner
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Step 2: Install Node.js (required for markdownlint)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # Step 3: Install markdownlint-cli globally
+      - name: Install markdownlint
+        run: npm install -g markdownlint-cli
+
+      # Step 4: Run markdownlint on all Markdown files
+      - name: Run markdownlint
+        run: markdownlint '**/*.md'
